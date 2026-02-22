@@ -1,0 +1,1 @@
+This game is a top-down view where the player controls a lost dog who needs to find his way home.  He walks the streets of a friendly suburb while avoiding mean cats and squirrels, finding bones and avoiding dangerous distractions
