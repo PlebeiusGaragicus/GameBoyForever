@@ -1,0 +1,41 @@
+site_name: GameBoyForever
+site_description: AI agents building Game Boy Color games in C with GBDK-2020
+repo_url: https://github.com/PlebeiusGaragicus/GameBoyForever
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: green
+      accent: lime
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: green
+      accent: lime
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Game Structure: game-structure.md
+  - Creating a Game: creating-a-game.md
+  - Testing: testing.md
+  - References: references.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true

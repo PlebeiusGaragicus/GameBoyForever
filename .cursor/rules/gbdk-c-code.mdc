@@ -1,0 +1,58 @@
+---
+description: GBDK-2020 C coding standards for Game Boy Color source files
+globs: games/**/*.c,games/**/*.h
+alwaysApply: false
+---
+
+# GBDK C Coding Standards (GBC)
+
+## Types
+
+- Use `uint8_t`, `int8_t`, `uint16_t`, `int16_t` -- never bare `int` (16-bit on sm83, expensive)
+- Use `UBYTE` / `BYTE` as GBDK aliases when matching reference code
+- Use `BOOLEAN` or `bool` sparingly; prefer `uint8_t` with 0/1
+- Use `palette_color_t` for color palette entries
+
+## Memory
+
+- GBC has 32KB WRAM (8 banks of 4KB). Still minimize global variables.
+- Use `const` for lookup tables -- they stay in ROM
+- Use `BANKREF()` / `BANK()` macros for banked data
+- Declare banked functions with `void foo(void) BANKED`
+- GBC has two VRAM banks; switch with `VBK_REG = 0` / `VBK_REG = 1`
+
+## Performance
+
+- Avoid division and modulo on sm83; use bitwise ops (`& 0x07` instead of `% 8`)
+- Prefer `for` loops with `uint8_t` counters
+- Use `<<` and `>>` for multiply/divide by powers of 2
+- Minimize function call depth; the sm83 stack is limited
+
+## Graphics
+
+- Background tiles: `set_bkg_data()` to load, `set_bkg_tiles()` to place
+- Sprites: `set_sprite_data()` to load, `set_sprite_tile()` to assign, `move_sprite()` to position
+- Always load tile/sprite data before calling `DISPLAY_ON`
+- Use `wait_vbl_done()` before updating VRAM in the main loop
+
+## GBC Color
+
+- Define palettes as `const palette_color_t[]` arrays using `RGB(r, g, b)` (0-31 per channel)
+- Load palettes with `set_bkg_palette()` / `set_sprite_palette()` before `DISPLAY_ON`
+- Use `set_bkg_attributes()` to assign palettes to background tiles
+- Use `VBK_REG = 1` to access VRAM bank 1 for additional tile data
+
+## Input
+
+```c
+uint8_t keys = joypad();
+if (keys & J_A) { /* pressed */ }
+```
+
+For edge detection (press once):
+```c
+uint8_t prev = 0;
+uint8_t keys = joypad();
+uint8_t pressed = keys & ~prev;
+prev = keys;
+```

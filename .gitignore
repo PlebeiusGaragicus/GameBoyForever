@@ -1,1 +1,39 @@
+# Reference repos (cloned locally, not tracked)
 references/
+
+# Emulicious emulator (binary, installed locally)
+Emulicious/
+
+# GBDK build artifacts
+*.gb
+*.gbc
+*.gg
+*.sms
+*.nes
+*.duck
+*.pocket
+*.o
+*.rel
+*.lst
+*.map
+*.noi
+*.sym
+*.ihx
+*.d
+obj/
+build/
+
+# MKDocs
+docs/site/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# macOS
+.DS_Store
+
+# Emulicious
+*.esm
+*.sav

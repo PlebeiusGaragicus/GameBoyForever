@@ -1,0 +1,59 @@
+---
+description: Game Boy Color development conventions and repo layout for GameBoyForever
+alwaysApply: true
+---
+
+# GameBoyForever Project Conventions
+
+This project targets Game Boy Color (CGB-only). All ROMs use the `-Wm-yC` flag.
+
+## Repo Layout
+
+- `games/` -- each game in its own subfolder; copy `games/_template/` to start
+- `games/_template/` -- skeleton with Makefile, src/main.c, include/, res/
+- `references/BlackCastle/` -- complete GBDK game to study (multi-platform)
+- `references/gb-studio/` -- GB Studio source; C engine in `appData/engine/`
+- `references/gbdk-2020/` -- GBDK toolchain; examples in `gbdk-lib/examples/`
+- `docs/` -- MKDocs documentation; run `mkdocs serve` from `docs/`
+
+## Creating a New Game
+
+1. `cp -r games/_template games/NewGame`
+2. Edit `Makefile`: set `PROJECTNAME = newgame`
+3. Write game logic in `src/main.c`
+4. Add graphics: create PNGs, convert with `png2asset`, place in `res/`
+5. Build: `make gb`
+6. Test: open `build/gb/newgame.gb` in Emulicious
+
+## GBDK-2020 C Patterns
+
+- Entry point: `void main(void)` in `src/main.c`
+- Include `<gbdk/platform.h>` for cross-platform API
+- Use `wait_vbl_done()` for frame sync in the main loop
+- Use `joypad()` to read input (J_UP, J_DOWN, J_LEFT, J_RIGHT, J_A, J_B, J_START, J_SELECT)
+- Use `set_bkg_data()` / `set_bkg_tiles()` for backgrounds
+- Use `set_sprite_tile()` / `move_sprite()` for sprites
+- Call `DISPLAY_ON`, `SHOW_BKG`, `SHOW_SPRITES` after loading data
+- Use `uint8_t` / `uint16_t` from `<stdint.h>` -- avoid `int` (16-bit on sm83)
+- Use `EMU_printf()` from `<gbdk/emu_debug.h>` for debug output to Emulicious
+
+## GBC Color APIs
+
+- `set_bkg_palette(first, count, palette_data)` -- load background palettes
+- `set_sprite_palette(first, count, palette_data)` -- load sprite palettes
+- `set_bkg_attributes(x, y, w, h, attr_map)` -- assign palette/flags per BG tile
+- `VBK_REG = 1` -- switch to VRAM bank 1 for extra tile data
+- `RGB(r, g, b)` -- 15-bit GBC color (0-31 per channel)
+- `cpu_fast()` / `cpu_slow()` -- toggle CGB double-speed mode
+
+## Build System
+
+- Each game has its own `Makefile` and `Makefile.targets`
+- `GBDK_HOME` env var must point to the GBDK-2020 installation
+- `make gb` builds the GBC ROM; `make clean` to reset
+- The `-Wm-yC` flag in LCCFLAGS_gb marks the ROM as CGB-only
+- Build output goes to `build/gb/`; objects to `obj/gb/`
+
+## Before Writing Code
+
+Always study `references/BlackCastle/` for real-world patterns. Check `references/gbdk-2020/gbdk-lib/examples/` for API usage examples.
