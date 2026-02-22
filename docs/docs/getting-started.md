@@ -91,6 +91,9 @@ git clone --recurse-submodules git@github.com:PlebeiusGaragicus/gb-studio.git
 # gbdk-2020 -- GBDK toolchain source, libraries, and examples
 git clone https://github.com/gbdk-2020/gbdk-2020.git
 
+# VWF -- Variable Width Font library for GBDK
+git clone git@github.com:PlebeiusGaragicus/VWF.git
+
 cd ..
 ```
 

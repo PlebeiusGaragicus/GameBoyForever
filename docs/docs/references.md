@@ -45,3 +45,25 @@ The GBDK-2020 toolchain itself -- compiler, linker, libraries, and examples.
 - `gbdk-lib/include/` -- all header files documenting the public API
 - `gbdk-lib/libc/` -- C runtime library source
 - `docs/` -- toolchain documentation source
+
+## VWF (Variable Width Font)
+
+**Path:** `references/VWF/`
+**Source:** [github.com/PlebeiusGaragicus/VWF](https://github.com/PlebeiusGaragicus/VWF)
+
+A variable-width font rendering library for GBDK-2020. Supports up to 4 fonts simultaneously with configurable foreground/background colors.
+
+**What to study:**
+
+- `src/` -- VWF rendering implementation
+- `include/` -- public API headers (`vwf.h`)
+- `Makefile` -- build integration example for a GBDK library
+- Font format in `vwf_font.c` -- 1-bit font tile definitions
+
+**Features:**
+
+- Variable-width font rendering (proportional text instead of fixed 8px grid)
+- Up to 4 fonts at once
+- Foreground/background color control
+- Render to background or window layer
+- Control characters for inverse text, gotoxy, font switching

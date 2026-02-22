@@ -102,6 +102,14 @@ else
     git clone https://github.com/gbdk-2020/gbdk-2020.git references/gbdk-2020
     echo "[OK] gbdk-2020 cloned"
 fi
+
+if [ -d "references/VWF/.git" ]; then
+    echo "[OK] references/VWF already present"
+else
+    echo "[..] Cloning VWF (Variable Width Font library)..."
+    git clone git@github.com:PlebeiusGaragicus/VWF.git references/VWF
+    echo "[OK] VWF cloned"
+fi
 echo ""
 
 # --- Verify ---

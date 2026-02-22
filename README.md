@@ -21,7 +21,8 @@ GameBoyForever/
 └── references/         Cloned reference repos (git-ignored)
     ├── BlackCastle/    Complete multi-platform GBDK game
     ├── gb-studio/      GB Studio source with C engine
-    └── gbdk-2020/      GBDK source, libraries, and examples
+    ├── gbdk-2020/      GBDK source, libraries, and examples
+    └── VWF/            Variable Width Font library for GBDK
 ```
 
 ## Setup from Scratch

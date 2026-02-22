@@ -131,6 +131,7 @@ Before implementing features, check these reference projects in `references/`:
 | Sprites and animation | `references/BlackCastle/src/player.c` |
 | GBDK API examples | `references/gbdk-2020/gbdk-lib/examples/` |
 | Scene/actor system | `references/gb-studio/appData/engine/` |
+| Variable width fonts | `references/VWF/src/` and `references/VWF/include/` |
 
 ## Hardware Constraints (Game Boy Color)
 

@@ -18,6 +18,7 @@ This project targets Game Boy Color (CGB-only). All ROMs use the `-Wm-yC` flag.
 - `references/BlackCastle/` -- complete GBDK game to study (multi-platform)
 - `references/gb-studio/` -- GB Studio source; C engine in `appData/engine/`
 - `references/gbdk-2020/` -- GBDK source; examples in `gbdk-lib/examples/`
+- `references/VWF/` -- Variable Width Font library for proportional text rendering
 - `docs/` -- MKDocs documentation; run `mkdocs serve` from `docs/`
 
 ## Creating a New Game
