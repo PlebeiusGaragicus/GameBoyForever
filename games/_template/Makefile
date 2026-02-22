@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 ifndef GBDK_HOME
-GBDK_HOME = ../../gbdk-2020/build/gbdk/
+GBDK_HOME = ../../gbdk/
 endif
 LCC = $(GBDK_HOME)bin/lcc
 

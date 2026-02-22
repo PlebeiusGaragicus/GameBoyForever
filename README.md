@@ -10,52 +10,54 @@ This repo is a workspace for AI coding agents to design, implement, and test Gam
 
 ```
 GameBoyForever/
+├── setup.sh            One-command bootstrap (downloads everything)
+├── gbdk/               GBDK-2020 v4.5.0 toolchain (git-ignored)
+├── Emulicious/         Emulicious emulator (git-ignored)
 ├── docs/               MKDocs documentation site
-│   ├── mkdocs.yml      Site configuration
-│   └── docs/           Markdown pages
 ├── games/              Game projects
-│   ├── _template/      Starter skeleton for new games
+│   ├── _template/      Starter skeleton (compiles out of the box)
 │   ├── CharlieDog/     Top-down adventure game
 │   └── RetroBoy/       Coin-collecting arcade game
 └── references/         Cloned reference repos (git-ignored)
     ├── BlackCastle/    Complete multi-platform GBDK game
     ├── gb-studio/      GB Studio source with C engine
-    └── gbdk-2020/      GBDK toolchain, libraries, and examples
+    └── gbdk-2020/      GBDK source, libraries, and examples
 ```
 
-## Quick Start
+## Setup from Scratch
 
-### 1. Install GBDK-2020
+### Prerequisites
 
-Download the latest release from [gbdk-2020 releases](https://github.com/gbdk-2020/gbdk-2020/releases) and unzip it. Set the `GBDK_HOME` environment variable to the unzipped directory.
+| Tool | Install |
+|------|---------|
+| **git** | [git-scm.com/downloads](https://git-scm.com/downloads) |
+| **make** | macOS: `xcode-select --install` / Linux: `sudo apt install build-essential` |
+| **Java** | macOS: `brew install --cask temurin` / Linux: `sudo apt install default-jre` |
 
-On macOS, unquarantine the binaries:
+### Automated Setup
+
+Clone the repo and run the setup script. It downloads GBDK-2020, Emulicious, and all reference repos:
 
 ```bash
-cd /path/to/gbdk/bin && xattr -d com.apple.quarantine *
+git clone git@github.com:PlebeiusGaragicus/GameBoyForever.git
+cd GameBoyForever
+./setup.sh
 ```
 
-### 2. Install Emulicious
+The script is idempotent -- it skips anything already installed.
 
-[Emulicious](https://emulicious.net/) is a free Game Boy emulator with built-in debugging tools. It is **not** bundled with GBDK and must be installed separately. Download from [emulicious.net/downloads](https://emulicious.net/downloads/). Requires Java.
+### Manual Setup
 
-### 3. Create a New Game
+If you prefer to set things up manually, see the [Getting Started](docs/docs/getting-started.md) guide for step-by-step instructions.
+
+## Build and Test
 
 ```bash
 cp -r games/_template games/MyGame
 cd games/MyGame
 # Edit Makefile: set PROJECTNAME = mygame
 make gb
-```
-
-Open `build/gb/mygame.gb` in Emulicious to test.
-
-### 4. Clone References (if needed)
-
-```bash
-cd references/
-git clone --recurse-submodules git@github.com:PlebeiusGaragicus/gb-studio.git
-git clone https://github.com/gbdk-2020/gbdk-2020.git
+java -jar ../../Emulicious/Emulicious.jar build/gb/mygame.gb
 ```
 
 ## Documentation

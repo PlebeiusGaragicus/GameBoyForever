@@ -2,10 +2,10 @@
 
 ## Running a ROM
 
-After building with `make gb`, open the ROM in Emulicious:
+After building with `make gb`, launch the ROM in Emulicious from the game directory:
 
 ```bash
-java -jar /path/to/Emulicious.jar build/gb/mygame.gb
+java -jar ../../Emulicious/Emulicious.jar build/gb/mygame.gb
 ```
 
 Or drag-and-drop the `.gb` file onto the Emulicious window.

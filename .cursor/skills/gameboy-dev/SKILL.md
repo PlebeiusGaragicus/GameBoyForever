@@ -7,28 +7,42 @@ description: Scaffold and build Game Boy Color games using GBDK-2020. Use when t
 
 All games in this repo target Game Boy Color (CGB-only, `-Wm-yC` flag).
 
+## Toolchain
+
+- GBDK-2020 v4.5.0 is installed at `gbdk/` in the repo root
+- Emulicious emulator is at `Emulicious/Emulicious.jar` (requires Java)
+- Each game Makefile defaults to `GBDK_HOME = ../../gbdk/`
+
 ## Scaffold a New Game
 
-1. Copy the template:
-   ```bash
-   cp -r games/_template games/GameName
-   ```
+1. `cp -r games/_template games/GameName`
 2. Edit `games/GameName/Makefile` -- set `PROJECTNAME = gamename`
 3. Write game logic in `src/main.c`
-4. Build with `make gb`
-5. Test ROM at `build/gb/gamename.gb` in Emulicious
+4. Build: `make gb`
+5. Launch: `java -jar ../../Emulicious/Emulicious.jar build/gb/gamename.gb`
+6. User tests and provides screenshot feedback
+
+## Development Loop
+
+After every feature change, follow this cycle:
+
+1. Edit source files
+2. `make gb` -- fix any compile errors
+3. Launch the ROM in Emulicious for the user to test
+4. User provides screenshots from Emulicious as visual feedback
+5. Iterate based on the screenshots
 
 ## Project Structure
 
 ```
 games/GameName/
 ├── Makefile            # Build config (set PROJECTNAME here)
-├── Makefile.targets    # Platform targets (gb, gg, sms, nes, etc.)
+├── Makefile.targets    # Platform targets
 ├── src/main.c          # Entry point: void main(void)
 ├── include/            # Headers
 ├── res/                # Graphics and map data
-├── build/              # Output ROMs
-└── obj/                # Intermediate objects
+├── build/gb/           # Output ROM
+└── obj/gb/             # Intermediate objects
 ```
 
 ## Key APIs
@@ -98,9 +112,9 @@ VBK_REG = 0;           // back to VRAM bank 0
 
 ## Asset Pipeline
 
-Convert PNGs to C arrays:
+Convert PNGs to C arrays using png2asset (in `gbdk/bin/`):
 ```bash
-${GBDK_HOME}bin/png2asset sprite.png -o res/sprite.c -sw 16 -sh 16
+../../gbdk/bin/png2asset sprite.png -o res/sprite.c -sw 16 -sh 16
 ```
 
 Flags: `-sw`/`-sh` set sprite width/height. Output is a `.c` and `.h` pair.

@@ -1,6 +1,9 @@
 # Reference repos (cloned locally, not tracked)
 references/
 
+# GBDK-2020 toolchain (binary, installed locally)
+gbdk/
+
 # Emulicious emulator (binary, installed locally)
 Emulicious/
 
