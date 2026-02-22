@@ -13,6 +13,17 @@ void clear_screen(void) {
     SHOW_BKG;
 }
 
+void show_win_text_fullscreen(void) {
+    set_bkg_data(0, 1, BLANK);
+    init_win(0);
+    move_win(7, 0);
+    SHOW_WIN;
+}
+
+void hide_win_text(void) {
+    HIDE_WIN;
+}
+
 void show_screen_border(void) {
     HIDE_BKG;
     set_bkg_data(0, 9, ScreenBorderTiles);

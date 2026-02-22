@@ -1,6 +1,5 @@
 #include <gbdk/platform.h>
 #include <gb/cgb.h>
-#include <stdio.h>
 #include <rand.h>
 #include <types.h>
 
@@ -13,6 +12,10 @@
 #include "hud.h"
 #include "boss.h"
 #include "sprites.h"
+#include "vwf.h"
+#include "vwf_font.h"
+
+#define TEXT_BASE_TILE 192
 
 Player player;
 GameState game_state;
@@ -33,17 +36,23 @@ static void init_gbc_palettes(void) {
     set_sprite_palette(0, 4, sprite_palettes);
 }
 
+static void vwf_text_screen(const unsigned char *text) {
+    show_win_text_fullscreen();
+    vwf_set_destination(VWF_RENDER_WIN);
+    vwf_activate_font(0);
+    vwf_set_colors(3, 0);
+    vwf_draw_text(1, 1, TEXT_BASE_TILE, text);
+}
+
 static void seed_prng(void) {
-    printf("--------------------");
-    printf("|                  |");
-    printf("|    RETRO  BOY    |");
-    printf("|                  |");
-    printf("--------------------");
-    printf("\n\n\n");
-    printf("    PRESS START!\n\n\n\n\n");
-    printf("  Collect coins.\n");
-    printf("  Defeat bosses.\n");
-    printf("  Avoid chasers!");
+    vwf_text_screen(
+        "\n"
+        "  RETRO  BOY\n\n\n"
+        "  PRESS START!\n\n\n\n"
+        "  Collect coins.\n"
+        "  Defeat bosses.\n"
+        "  Avoid chasers!"
+    );
 
     waitpad(J_START);
     boop();
@@ -53,6 +62,7 @@ static void seed_prng(void) {
     initrand(seed);
 
     performant_delay(10);
+    hide_win_text();
     clear_screen();
 }
 
@@ -98,17 +108,18 @@ static void pause_screen(void) {
     HIDE_SPRITES;
     boop();
 
-    clear_screen();
-    vsync();
-    printf("\n\n\n\n\n\n\n");
-    printf("      PAUSED\n\n");
-    printf("   PRESS START");
+    vwf_text_screen(
+        "\n\n\n\n\n\n"
+        "     PAUSED\n\n"
+        "   PRESS START"
+    );
 
     while (joypad() & J_START) vsync();
     while (!(joypad() & J_START)) vsync();
     while (joypad() & J_START) vsync();
 
     boop();
+    hide_win_text();
     show_screen_border();
     load_number_tiles();
     display_scores();
@@ -122,6 +133,9 @@ void main(void) {
 
     audio_init();
     init_gbc_palettes();
+
+    vwf_load_font(0, vwf_font, BANK(vwf_font));
+    vwf_set_destination(VWF_RENDER_WIN);
 
     seed_prng();
 
@@ -142,6 +156,7 @@ void main(void) {
                 init_level();
                 load_sprites();
                 SHOW_SPRITES;
+                HIDE_WIN;
                 ready_start();
                 game_state = STATE_PLAYING;
                 break;
@@ -186,15 +201,14 @@ void main(void) {
 
             case STATE_GAME_OVER:
                 HIDE_SPRITES;
-                clear_screen();
-                vsync();
-                printf("\n\n\n\n\n");
-                printf("    GAME  OVER\n\n");
-                printf("   A chaser got\n");
-                printf("   you!\n\n");
-                printf("   Score: %d\n\n\n", player_score);
-                printf("   PRESS START\n");
-                printf("   to try again");
+                vwf_text_screen(
+                    "\n\n\n\n"
+                    "   GAME  OVER\n\n"
+                    "   A chaser got\n"
+                    "   you!\n\n\n\n"
+                    "   PRESS START\n"
+                    "   to try again"
+                );
 
                 while (joypad()) vsync();
                 waitpad(J_START);
@@ -202,6 +216,7 @@ void main(void) {
 
                 current_level = 0;
                 game_state = STATE_LEVEL_INTRO;
+                hide_win_text();
                 clear_screen();
                 break;
         }

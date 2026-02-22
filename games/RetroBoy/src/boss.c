@@ -1,12 +1,15 @@
 #include <gbdk/platform.h>
 #include <gb/cgb.h>
-#include <stdio.h>
 #include "common.h"
 #include "boss.h"
 #include "faces.h"
 #include "sprites.h"
 #include "audio.h"
 #include "hud.h"
+#include "vwf.h"
+#include "vwf_font.h"
+
+#define TEXT_BASE_TILE 192
 
 static void load_justin(void) {
     HIDE_BKG;
@@ -35,8 +38,17 @@ static void wait_for_button(void) {
     boop();
 }
 
+static void vwf_to_win(const unsigned char *text) {
+    show_win_text_fullscreen();
+    vwf_set_destination(VWF_RENDER_WIN);
+    vwf_activate_font(0);
+    vwf_set_colors(3, 0);
+    vwf_draw_text(1, 1, TEXT_BASE_TILE, text);
+}
+
 void show_boss_intro(uint8_t level) {
     HIDE_SPRITES;
+    HIDE_WIN;
 
     switch (level) {
         case 0: load_justin(); break;
@@ -46,56 +58,59 @@ void show_boss_intro(uint8_t level) {
 
     performant_delay(60);
 
-    clear_screen();
-    vsync();
-
     switch (level) {
         case 0:
-            printf("  LEVEL 1: JUSTIN\n\n");
-            printf("  Ha! You think you\n");
-            printf("  can collect coins\n");
-            printf("  faster than my\n");
-            printf("  minions?\n\n");
-            printf("  You're nothing\n");
-            printf("  but a little\n");
-            printf("  smiley face!\n\n\n");
-            printf("  Collect %d coins\n", 4);
-            printf("  to shut me up!\n\n\n");
-            printf("  PRESS ANY BUTTON");
+            vwf_to_win(
+                "LEVEL 1: JUSTIN\n\n"
+                "Ha! You think you\n"
+                "can collect coins\n"
+                "faster than my\n"
+                "minions?\n\n"
+                "You're nothing but\n"
+                "a little smiley!\n\n"
+                "Collect 4 coins\n"
+                "to shut me up!\n\n\n"
+                "PRESS ANY BUTTON"
+            );
             break;
         case 1:
-            printf("  LEVEL 2: TRUMP\n\n");
-            printf("  Tremendous!\n");
-            printf("  Nobody collects\n");
-            printf("  coins better\n");
-            printf("  than me. NOBODY.\n\n");
-            printf("  My guys are the\n");
-            printf("  best guys. Believe\n");
-            printf("  me.\n\n");
-            printf("  Collect %d coins\n", 6);
-            printf("  to prove me wrong\n\n\n");
-            printf("  PRESS ANY BUTTON");
+            vwf_to_win(
+                "LEVEL 2: TRUMP\n\n"
+                "Tremendous! Nobody\n"
+                "collects coins\n"
+                "better than me.\n"
+                "NOBODY.\n\n"
+                "My guys are the\n"
+                "best. Believe me.\n\n"
+                "Collect 6 coins\n"
+                "to prove me wrong\n\n\n"
+                "PRESS ANY BUTTON"
+            );
             break;
         case 2:
-            printf("  LEVEL 3: CYBERTRUCK\n\n");
-            printf("  BEEP BOOP. I am\n");
-            printf("  bulletproof and\n");
-            printf("  my windows do\n");
-            printf("  NOT break.\n\n");
-            printf("  You cannot\n");
-            printf("  outrun steel!\n\n");
-            printf("  Collect %d coins\n", 10);
-            printf("  if you dare!\n\n\n");
-            printf("  PRESS ANY BUTTON");
+            vwf_to_win(
+                "LEVEL 3: CYBERTRUCK\n\n"
+                "BEEP BOOP. I am\n"
+                "bulletproof and\n"
+                "my windows do\n"
+                "NOT break.\n\n"
+                "You cannot outrun\n"
+                "steel!\n\n"
+                "Collect 10 coins\n"
+                "if you dare!\n\n\n"
+                "PRESS ANY BUTTON"
+            );
             break;
     }
 
     wait_for_button();
+    hide_win_text();
     clear_screen();
 }
 
 void show_boss_defeated(uint8_t level) {
     HIDE_SPRITES;
+    HIDE_WIN;
 
     switch (level) {
         case 0: load_justin(); break;
@@ -104,44 +119,48 @@ void show_boss_defeated(uint8_t level) {
     }
 
     performant_delay(30);
-    clear_screen();
-    vsync();
 
     switch (level) {
         case 0:
-            printf("  JUSTIN DEFEATED!\n\n");
-            printf("  W-what?! How did\n");
-            printf("  you...?!\n\n");
-            printf("  This is NOT\n");
-            printf("  the current year!\n\n");
-            printf("  Fine. But my\n");
-            printf("  friend will\n");
-            printf("  crush you...\n\n\n\n\n");
-            printf("  PRESS ANY BUTTON");
+            vwf_to_win(
+                "JUSTIN DEFEATED!\n\n"
+                "W-what?! How did\n"
+                "you...?!\n\n"
+                "This is NOT the\n"
+                "current year!\n\n"
+                "Fine. But my\n"
+                "friend will\n"
+                "crush you...\n\n\n"
+                "PRESS ANY BUTTON"
+            );
             break;
         case 1:
-            printf("  TRUMP DEFEATED!\n\n");
-            printf("  FAKE NEWS!\n");
-            printf("  That score is\n");
-            printf("  RIGGED! I demand\n");
-            printf("  a recount!\n\n");
-            printf("  You haven't\n");
-            printf("  seen anything\n");
-            printf("  yet...\n\n\n\n");
-            printf("  PRESS ANY BUTTON");
+            vwf_to_win(
+                "TRUMP DEFEATED!\n\n"
+                "FAKE NEWS!\n"
+                "That score is\n"
+                "RIGGED! I demand\n"
+                "a recount!\n\n"
+                "You haven't seen\n"
+                "anything yet...\n\n\n\n"
+                "PRESS ANY BUTTON"
+            );
             break;
         case 2:
-            printf("  CYBERTRUCK DOWN!\n\n");
-            printf("  ERROR 404:\n");
-            printf("  DIGNITY NOT FOUND\n\n");
-            printf("  *windows crack*\n\n");
-            printf("  IMPOSSIBLE.\n");
-            printf("  RECALCULATING...\n\n\n");
-            printf("  YOU WIN!\n\n\n");
-            printf("  PRESS ANY BUTTON");
+            vwf_to_win(
+                "CYBERTRUCK DOWN!\n\n"
+                "ERROR 404:\n"
+                "DIGNITY NOT FOUND\n\n"
+                "*windows crack*\n\n"
+                "IMPOSSIBLE.\n"
+                "RECALCULATING...\n\n\n"
+                "YOU WIN!\n\n"
+                "PRESS ANY BUTTON"
+            );
             break;
     }
 
     wait_for_button();
+    hide_win_text();
     clear_screen();
 }
