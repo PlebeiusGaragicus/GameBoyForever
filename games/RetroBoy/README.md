@@ -1,1 +1,13 @@
-In this game the user attempts to avoid enemies while collecting coins.  The novel physics mechanics make this game challenging yet replayable.
+# Game Name
+
+A brief description of the game concept and mechanics.
+
+## Build
+
+```bash
+make gb
+```
+
+## Play
+
+Open `build/gb/mygame.gb` in Emulicious.
